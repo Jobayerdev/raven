@@ -1,8 +1,8 @@
 {
-	"name": "raven",
+	"name": "tossify",
 	"version": "1.0.0",
 	"main": "index.js",
-	"repository": "git@github.com:Jobayerdev/raven.git",
+	"repository": "git@github.com:Jobayerdev/tossify.git",
 	"author": "Jobayer Hossain <jobayerhossain977@gmail.com>",
 	"license": "MIT",
 	"dependencies": {
