@@ -1,6 +1,6 @@
-export class TossifyError {
+export class ITossifyError {
     constructor(response) {
-        this.name = 'TossifyError';
+        this.name = "RavenError";
         this.message = response.statusText;
         this.headers = response.headers;
         this.ok = response.ok;

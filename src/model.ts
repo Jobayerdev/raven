@@ -1,4 +1,4 @@
-export interface TossifyRequest {
+export interface ITossifyRequest {
 	body?: BodyInit | null
 	cache?: RequestCache
 	credentials?: RequestCredentials
@@ -15,7 +15,7 @@ export interface TossifyRequest {
 	signal?: AbortSignal | null
 	window?: null
 }
-export interface TossifyResponse<T = {}> {
+export interface ITossifyResponse<T = {}> {
 	readonly headers: Headers
 	readonly ok: boolean
 	readonly redirected: boolean
@@ -23,7 +23,7 @@ export interface TossifyResponse<T = {}> {
 	readonly statusText: string
 	readonly type: ResponseType
 	readonly url: string
-	clone(): TossifyResponse
+	clone(): ITossifyResponse
 	readonly body: ReadableStream<Uint8Array> | null
 	readonly bodyUsed: boolean
 	arrayBuffer(): Promise<ArrayBuffer>
@@ -31,42 +31,42 @@ export interface TossifyResponse<T = {}> {
 	formData(): Promise<FormData>
 	json(): Promise<any>
 	text(): Promise<string>
-	data: T
+	data: Partial<T>
 }
 export type Method =
-	| 'get'
-	| 'GET'
-	| 'delete'
-	| 'DELETE'
-	| 'head'
-	| 'HEAD'
-	| 'options'
-	| 'OPTIONS'
-	| 'post'
-	| 'POST'
-	| 'put'
-	| 'PUT'
-	| 'patch'
-	| 'PATCH'
-	| 'purge'
-	| 'PURGE'
-	| 'link'
-	| 'LINK'
-	| 'unlink'
-	| 'UNLINK'
+	| "get"
+	| "GET"
+	| "delete"
+	| "DELETE"
+	| "head"
+	| "HEAD"
+	| "options"
+	| "OPTIONS"
+	| "post"
+	| "POST"
+	| "put"
+	| "PUT"
+	| "patch"
+	| "PATCH"
+	| "purge"
+	| "PURGE"
+	| "link"
+	| "LINK"
+	| "unlink"
+	| "UNLINK"
 export interface ITossifyInstance {
 	baseURL?: string
-	headers?: TossifyRequestHeaders
+	headers?: ITossifyRequestHeaders
 	enableLogger?: boolean
 }
-export type TossifyRequestHeaders = Record<string, string | number | boolean>
-export interface TossifySend {
+export type ITossifyRequestHeaders = Record<string, string | number | boolean>
+export interface RavenSend {
 	method?: Method
 	url?: string
 	data?: any
-	config?: TossifyRequest
+	config?: ITossifyRequest
 }
-export class TossifyError implements Error, Partial<TossifyResponse> {
+export class ITossifyError implements Error, Partial<ITossifyResponse> {
 	name: string
 	message: string
 	stack?: string
@@ -81,8 +81,8 @@ export class TossifyError implements Error, Partial<TossifyResponse> {
 	body: ReadableStream<Uint8Array>
 	bodyUsed: boolean
 	data: any
-	constructor(response: TossifyResponse) {
-		this.name = 'TossifyError'
+	constructor(response: ITossifyResponse) {
+		this.name = "RavenError"
 		this.message = response.statusText
 		this.headers = response.headers
 		this.ok = response.ok
@@ -96,7 +96,7 @@ export class TossifyError implements Error, Partial<TossifyResponse> {
 		this.data = response.data
 	}
 }
-export interface ILogger {
-	request?: TossifyRequest
-	response?: TossifyResponse
+export interface ITossifyLogger {
+	request?: ITossifyRequest
+	response?: ITossifyResponse
 }
