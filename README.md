@@ -1,163 +1,104 @@
+
 ![image info](https://raw.githubusercontent.com/jobayer977/tossify/master/docs/tossify-logo.png)
+ 
+  
 
-#### CFPB Open Source Project Template Instructions
+## Installation  
 
-1. Create a new project.
-2. [Copy these files into the new project](#installation)
-3. Update the README, replacing the contents below as prescribed.
-4. Add any libraries, assets, or hard dependencies whose source code will be included
-   in the project's repository to the _Exceptions_ section in the [TERMS](TERMS.md).
-  - If no exceptions are needed, remove that section from TERMS.
-5. If working with an existing code base, answer the questions on the [open source checklist](opensource-checklist.md)
-6. Delete these instructions and everything up to the _Project Title_ from the README.
-7. Write some great software and tell people about it.
+To install run the following script from the root of your project's directory:
 
-> Keep the README fresh! It's the first thing people see and will make the initial impression.
-
-## Installation
-
-To install all of the template files, run the following script from the root of your project's directory:
-
+Using Npm
 ```
-bash -c "$(curl -s https://raw.githubusercontent.com/CFPB/development/main/open-source-template.sh)"
+npm install tossify 
 ```
+Useing Yarn
+```
+yarn add tossify 
+```
+  
 
-----
+# Tossify
 
-# Project Title
+  
 
-**Description**:  Put a meaningful, short, plain-language description of what
-this project is trying to accomplish and why it matters.
-Describe the problem(s) this project solves.
-Describe how this software can improve the lives of its audience.
+**Description**: Promise-based HTTP Client using Browser native fetch.  inspired by axios.
 
-Other things to include:
+Browser Most Popular Http clients are using XHR requests. Where native fetch is a cleaner API. 
+It's built with browser native fetch which enables a clearer and simpler API. And Tossify wrapper is enabled to intercept the request and respond to a simple logger.
 
-  - **Technology stack**: Indicate the technological nature of the software, including primary programming language(s) and whether the software is intended as standalone or as a module in a framework or other ecosystem.
-  - **Status**:  Alpha, Beta, 1.1, etc. It's OK to write a sentence, too. The goal is to let interested people know where this project is at. This is also a good place to link to the [CHANGELOG](CHANGELOG.md).
-  - **Links to production or demo instances**
-  - Describe what sets this apart from related-projects. Linking to another doc or page is OK if this can't be expressed in a sentence or two.
+**Example**
+```
+import {
+    ITossifyResponse
+} from 'tossify/dist/types'
+import {
+    Tossify
+} from 'tossify'
 
 
-**Screenshot**: If the software has visual components, place a screenshot after the description; e.g.,
-
-![](https://raw.githubusercontent.com/cfpb/open-source-project-template/main/screenshot.png)
-
+const tossifyClient = new Tossify({
+    baseURL: 'https://yoursite.com',
+})
+const get = async () => {
+    try {
+        const response: ITossifyResponse < {} > = await tossifyClient.get('/posts')
+    } catch (error) {
+        console.log(error)
+    } finally {}
+}
+const delete = async (id: number) => {
+    try {
+        await tossifyClient.delete(`/posts/${id}`)
+    } catch (error) {} finally {}
+}
+const post = async (payload) => {
+    try {
+        const res = await tossifyClient.post('/posts', payload)
+    } catch (error) {
+        console.log(error)
+    } finally {}
+}
+```
+  
+  
 
 ## Dependencies
 
-Describe any dependencies that must be installed for this software to work.
-This includes programming languages, databases or other storage mechanisms, build tools, frameworks, and so forth.
-If specific versions of other software are required, or known not to work, call that out.
+  ```
+"@types/node":  "^17.0.42",
+"ts-node":  "^10.8.1",
+"tslib":  "^2.4.0",
+"typescript":  "^4.7.3"
+  ```
 
-## Installation
+ 
 
-Detailed instructions on how to install, configure, and get the project running.
-This should be frequently tested to ensure reliability. Alternatively, link to
-a separate [INSTALL](INSTALL.md) document.
+  
 
 ## Configuration
 
-If the software is configurable, describe it in detail, either here or in other documentation to which you link.
-
-## Usage
-
-Show users how to use the software.
-Be specific.
-Use appropriate formatting when showing code snippets.
-
-## How to test the software
-
-If the software includes automated tests, detail how to run those tests.
-
-## Known issues
-
-Document any known significant shortcomings with the software.
-
-## Getting help
-
-Instruct users how to get help with this software; this might include links to an issue tracker, wiki, mailing list, etc.
-
-**Example**
-
-If you have questions, concerns, bug reports, etc, please file an issue in this repository's Issue Tracker.
-
-## Getting involved
-
-This section should detail why people should get involved and describe key areas you are
-currently focusing on; e.g., trying to get feedback on features, fixing certain bugs, building
-important pieces, etc.
-
-General instructions on _how_ to contribute should be stated with a link to [CONTRIBUTING](CONTRIBUTING.md).
-
-
-----
-
-## Open source licensing info
-1. [TERMS](TERMS.md)
-2. [LICENSE](LICENSE)
-3. [CFPB Source Code Policy](https://github.com/cfpb/source-code-policy/)
-
-
-----
-
-## Credits and references
-
-1. Projects that inspired you
-2. Related projects
-3. Books, papers, talks, or other sources that have meaningful impact or influence on this project
-
-
-
-
-<!-- ![image info](https://raw.githubusercontent.com/jobayer977/tossify/master/docs/tossify-logo.png)
-
-
-<a href="https://www.npmjs.com/package/tossify">NPM</a>
-
-## tossify 
-
-Promise-based HTTP Client using Browser native fetch. Highly inspired by axios.
-
-
-## Usage
-
- npm:
 ```
-$ npm install tossify
-```
- Yarn:
-```
-$ yarn add tossify
-```
-## Example
-```
-import { Tossify } from 'tossify';
-
-const tossifyClient = new Tossify({
-	baseURL: ENV.CORE_END_POINT,
-	headers: {
-		'x-client-name': 'WEB'
+new Tossify({
+	// base url
+	baseURL:  'https://jsonplaceholder.typicode.com', 
+	// Enable Built in Logger
+	enableLogger:  true, 
+	// Initial Headers
+	headers:  {
+		'Content-Type':  'application/json',
 	},
-	enableLogger: !ENV.IS_PRODUCTION
-});
-tossifyClient.interceptors.request = async (config: RavenRequest) => {
-  // Here you can intercept each request.
-	return config;
-};
-tossifyClient.interceptors.response = async (response: RavenResponse) => {
-  // Here you can intercept each response.
-	return response;
-};
-
+})
 ```
 
+## Exmaple
+
+[Svelte CURD Example  ](https://github.com/jobayer977/tossify/tree/master/examples/svelte)
+  
 
 
-## Contact
 
- [@jobayerdev](https://twitter.com/jobayerdev) - jobayerhossain977@gmail.com
+ 
 
-Project Link: [https://github.com/jobayer977/tossify](https://github.com/jobayer977/tossify)
 
- -->
+
+  
